@@ -1,9 +1,9 @@
 ;*************************************************************** 
 ;* Feladat: 
-;* R√∂vid le√≠r√°s:
+;* Rˆvid leÌr·s:
 ; 
 ;* Szerzok: 
-;* M√©rocsoport: <merocsoport jele>
+;* MÈrocsoport: <merocsoport jele>
 ;
 ;***************************************************************
 ;* "AVR ExperimentBoard" port assignment information:
@@ -40,7 +40,7 @@
 .equ const =$00 ; Generic Constant Structure example  
 ;* Program Variables Definitions 
 .def temp =r16 ; Temporary Register example 
-.def lux = r17 ; F√©ny√©rz√©kelo
+.def lux = r17 ; FÈnyÈrzÈkelo
 .def led = r18 ; led
 .def sotet = r19
 .def counter = r20
@@ -94,7 +94,7 @@
 ;* DUMMY_IT interrupt handler -- CPU hangup with LED pattern
 ;* (This way unhandled interrupts will be noticed)
 
-;< t√∂bbi IT kezelo a f√°jl v√©g√©re! >
+;< tˆbbi IT kezelo a f·jl vÈgÈre! >
 
 DUMMY_IT:	
 	ldi r16,   0xFF ; LED pattern:  *-
@@ -104,7 +104,7 @@ DUMMY_IT:
 DUMMY_LOOP:
 	rjmp DUMMY_LOOP ; endless loop
 
-;< t√∂bbi IT kezelo a f√°jl v√©g√©re! >
+;< tˆbbi IT kezelo a f·jl vÈgÈre! >
 
 ;*************************************************************** 
 ;* MAIN program, Initialisation part
@@ -118,19 +118,19 @@ RESET:
 	out SPH, temp 
 
 M_INIT:
-;< ki- √©s bemenetek inicializ√°l√°sa stb > 
+;< ki- Ès bemenetek inicializ·l·sa stb > 
 	
 	
 	ldi flag, 0 ; Ha TCNT2 0xFF akkor 1 ha 0x00 akkor 0
 	
-	ldi sotet, 0b11000000	; Enn√©l az √©rt√©kn√©l kisebb m√°r s√∂t√©t
+	ldi sotet, 0b11000000	; EnnÈl az ÈrtÈknÈl kisebb m·r sˆtÈt
 	
-	;F√©ny√©rz√©kelo init
+	;FÈnyÈrzÈkelo init
 
 	ldi temp, 0b11100010
-		  ;			  11......... Az √∂sszehasonl√≠t√°shoz a bels≈ë 2.56V referencia√©rt√©k lesz haszn√°lva
-		  ;			  ..1........ Balra igaz√≠tott bitek az ADC dupla regiszterben. L√°sd man 246. oldal alja.
-		  ;			  ...00010... 2. pin, vagyis f√©ny√©rz√©kel≈ë kiv√°lasztva
+		  ;			  11......... Az ˆsszehasonlÌt·shoz a belsı 2.56V referenciaÈrtÈk lesz haszn·lva
+		  ;			  ..1........ Balra igazÌtott bitek az ADC dupla regiszterben. L·sd man 246. oldal alja.
+		  ;			  ...00010... 2. pin, vagyis fÈnyÈrzÈkelı kiv·lasztva
 		  out ADMUX, temp
 		  ldi temp, 0b11100111
 		  ;			  1.......... ADEN: ADC Enable
@@ -138,7 +138,7 @@ M_INIT:
 		  ;			  ..1........ ADFR: ADC Free Running Select
 		  ;			  ...0....... ADIF: ADC Interrupt Flag
 		  ;			  ....0...... ADIE: ADC Interrupt Enable (akarsz -e interrupot)
-		  ;			  .....111... ADPS2:0: ADC Prescaler Select Bits (128-as oszt√≥)
+		  ;			  .....111... ADPS2:0: ADC Prescaler Select Bits (128-as osztÛ)
 		  out ADCSR, temp
 
 	;LED init
@@ -151,32 +151,32 @@ M_INIT:
 	
 	;PWM
 	
-	ldi pwm, 0x00 ; kis kit√∂lt√©si t√©nyez≈ëj≈± jel 
+	ldi pwm, 0x00 ; kis kitˆltÈsi tÈnyezıj˚ jel 
 	out OCR0, pwm  
 	
 	ldi temp, 0xFF
 	out OCR2, temp	
 
-	sei ; glob√°lis IT enged√©lyez√©se
+	sei ; glob·lis IT engedÈlyezÈse
 	
 	
 	
 	ldi counter, 0x80 	; 
-DELAY:					; V√°rakoz√°s f√©ny√©rz√©kel≈ëre	
+DELAY:					; V·rakoz·s fÈnyÈrzÈkelıre	
 	dec counter			;
 	brne DELAY 			;
 	
 	call LUX_M		;
-	cp lux, sotet	; Ha kell≈ëen s√∂t√©t van akkor esti √ºzemm√≥d
+	cp lux, sotet	; Ha kellıen sˆtÈt van akkor esti ¸zemmÛd
 	brlo ESTE		;
 ;*************************************************************** 
 ;* MAIN program, Endless loop part
  
 NAPPAL:  
 
-	;L√°mpa1	L√°mpa2
+	;L·mpa1	L·mpa2
 	;ZSPP	ZSPP
-	;1000	0011 	Z_PP ( Z√∂ld-PirosPiros )
+	;1000	0011 	Z_PP ( Zˆld-PirosPiros )
 	;0100	0011	S_PP
 	;0011	0011	PP_PP
 	;0011	0111	PP_PPS
@@ -188,7 +188,7 @@ NAPPAL:
 	ldi temp, 0 		;
 	out TCCR0, temp		;
 	out TCNT0, temp		;
-	out TCCR2, temp		; Timer/Counter reset √©s le√°ll√≠t√°s
+	out TCCR2, temp		; Timer/Counter reset Ès le·llÌt·s
 	out TCNT2, temp		;
 	out TIMSK, temp		;
 	ldi pwm, 0x00		;
@@ -211,7 +211,7 @@ NAPPAL_LOOP:
 	breq PP_PP			; Ha S_PP
 
 	cpi led, 0b00110011
-	brts UGRIK			; PP_PP √°llapotban 2 ir√°nyba lehet v√°ltani. PP_PP vagy PPS_PP.
+	brts UGRIK			; PP_PP ·llapotban 2 ir·nyba lehet v·ltani. PP_PP vagy PPS_PP.
 	breq PP_PPS			; Ha PP_PP
 UGRIK:
 	cpi led, 0b00110111
@@ -238,7 +238,7 @@ Z_PP:
 	out PORTC, led
 	
 	ldi counter, 0xFF 	;
-	ldi counter2, 0xFF 	; Id≈ëz√≠t√©s
+	ldi counter2, 0xFF 	; IdızÌtÈs
 	ldi counter3, 0x28 	;
 	jmp LOOP
 
@@ -266,7 +266,7 @@ PP_PPS:
 
 	ldi led, 0b00110111
 	out PORTC, led
-	set					; T flag, hogy NAPPAL_LOOP-ban √°tugorja PP_PPS-t
+	set					; T flag, hogy NAPPAL_LOOP-ban ·tugorja PP_PPS-t
 	
 	ldi counter, 0xFF 
 	ldi counter2, 0xFF 
@@ -276,20 +276,20 @@ PP_PPS:
 ESTE:
 	clt
 	
-	ldi temp, 0b01001100 ; Fast PWM m√≥d, 64-es el≈ëoszt√≥ 
+	ldi temp, 0b01001100 ; Fast PWM mÛd, 64-es elıosztÛ 
 	out TCCR0, temp
 	
-	ldi temp, 0b00001101 ; CNT m√≥d, 1024-es oszt√≥
+	ldi temp, 0b00001101 ; CNT mÛd, 1024-es osztÛ
 	out TCCR2, temp
  						
-	ldi temp, 0b10000011 	; Timer/Counter0 kompar√°l√°skor √©s t√∫lcsordul√°skor megszak√≠t√°s. Timer/Counter2 kompar√°l√°skor megszak√≠t√°s	
+	ldi temp, 0b10000011 	; Timer/Counter0 kompar·l·skor Ès t˙lcsordul·skor megszakÌt·s. Timer/Counter2 kompar·l·skor megszakÌt·s	
 	out TIMSK, temp		
 	
 ESTE_LOOP:	
 	call LUX_M
 	cp lux, sotet	;
-	brlo ESTE_LOOP	; Ha m√©g s√∂t√©tvan akkor maradunk
-	jmp NAPPAL		; De ha m√°r vil√°gos van akkor v√°ltunk nappalra
+	brlo ESTE_LOOP	; Ha mÈg sˆtÈtvan akkor maradunk
+	jmp NAPPAL		; De ha m·r vil·gos van akkor v·ltunk nappalra
 	
 PP_Z:
 
@@ -315,7 +315,7 @@ PPS_PP:
 	
 	ldi led, 0b01110011
 	out PORTC, led
-	clt					; T flag, hogy ne hagyja ki PP_PPS √°llapotot
+	clt					; T flag, hogy ne hagyja ki PP_PPS ·llapotot
 	
 	ldi counter, 0xFF 
 	ldi counter2, 0xFF 
@@ -323,14 +323,14 @@ PPS_PP:
 	jmp LOOP
 
 LUX_M:
-	in lux, ADCH	; F√©nyer≈ë
+	in lux, ADCH	; FÈnyerı
 	ret
 	
 LOOP:
 
 	call LUX_M		;	
-	cp lux, sotet	; Hogy ne kelljen v√°rni √∫jabb f√©nyer≈ë vizsg√°latra
-	brlo ESTE		; am√≠g a LOOP lej√°r
+	cp lux, sotet	; Hogy ne kelljen v·rni ˙jabb fÈnyerı vizsg·latra
+	brlo ESTE		; amÌg a LOOP lej·r
 	
 	dec counter
 	brne LOOP 
@@ -341,7 +341,7 @@ LOOP:
 	
 	jmp NAPPAL_LOOP
 
-T0CM_IT: 					; ha TCNT0 == OCR0, akkor LED kikapcsol√°sa 
+T0CM_IT: 					; ha TCNT0 == OCR0, akkor LED kikapcsol·sa 
 
 	push temp 
 	in temp, SREG 
@@ -349,9 +349,9 @@ T0CM_IT: 					; ha TCNT0 == OCR0, akkor LED kikapcsol√°sa
 	
 	ldi led, 0b00000000 
 	
-	jmp END_IT 				; a megszak√≠t√°sb√≥l val√≥ visszat√©r√©s azonos 
+	jmp END_IT 				; a megszakÌt·sbÛl valÛ visszatÈrÈs azonos 
 
-T0OF_IT:					; ha TCNT0 == TOP, akkor LED bekapcsol√°sa 
+T0OF_IT:					; ha TCNT0 == TOP, akkor LED bekapcsol·sa 
 
 	push temp 
 	in temp, SREG 
@@ -359,7 +359,7 @@ T0OF_IT:					; ha TCNT0 == TOP, akkor LED bekapcsol√°sa
 	
 	ldi led, 0b01000100 
 
-END_IT: 					; megszak√≠t√°sb√≥l visszat√©r√©s 
+END_IT: 					; megszakÌt·sbÛl visszatÈrÈs 
 
 	out PORTC, led
 
@@ -368,36 +368,35 @@ END_IT: 					; megszak√≠t√°sb√≥l visszat√©r√©s
 	pop temp 
 	reti
 	
-T2CM_IT: 				; Ha v√©gzett a sz√°mol√°ssal Timer/Counter2 
+T2CM_IT: 				; Ha vÈgzett a sz·mol·ssal Timer/Counter2 
 
 	push temp 
 	in temp, SREG 
 	push temp 
 
-	cpi pwm, 0xFF		; Ha pwm el√©rte 0xFF-et akkor cs√∂kkenjen 
+	cpi pwm, 0xFF		; Ha pwm elÈrte 0xFF-et akkor csˆkkenjen 
 	breq CSOKKEN		;
 	
-	cpi pwm, 0			; Ha pwm el√©rte 0x00-√°t akkor n≈ëjj√∂n
+	cpi pwm, 0			; Ha pwm elÈrte 0x00-·t akkor nıjjˆn
 	breq NO
 	
-	jmp SZAMOL			; Ha nincs v√©gkit√©r√©s akkor folytassa asz√°mol√°st
+	jmp SZAMOL			; Ha nincs vÈgkitÈrÈs akkor folytassa asz·mol·st
 	
 CSOKKEN:
-	ldi flag, 1			; 0xFF-n√©l flag=1
+	ldi flag, 1			; 0xFF-nÈl flag=1
 	jmp SZAMOL
 NO:
-	ldi flag, 0			; 0x00-n√°ll flag=0
+	ldi flag, 0			; 0x00-n·ll flag=0
 SZAMOL:
-	sbrc flag, 0		; Ha flag=1 akkor cs√∂kkent
+	sbrc flag, 0		; Ha flag=1 akkor csˆkkent
 	dec pwm
 	
-	sbrs flag, 0		; Ha flag=0 akkor n√∂vel 
+	sbrs flag, 0		; Ha flag=0 akkor nˆvel 
 	inc pwm
 	
-	out OCR0, pwm		; OCR0 √©rt√©k friss√≠t√©se
+	out OCR0, pwm		; OCR0 ÈrtÈk frissÌtÈse
 	
 	pop temp 
 	out SREG, temp 
 	pop temp 
 	reti
-
